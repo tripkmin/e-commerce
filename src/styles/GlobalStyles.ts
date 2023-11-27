@@ -36,7 +36,7 @@ const GlobalStyles = createGlobalStyle`
       cursor: pointer;
     }
     p, span, textarea {
-        line-height: 150%;
+        line-height: 180%;
     }
     h1 {
       font-size: 3rem;
@@ -80,6 +80,16 @@ const GlobalStyles = createGlobalStyle`
     textarea&:focus{
       outline: none;
     }
+
+    #root {
+      padding: 0 2rem;
+      width:1100px;
+      
+      @media screen and (max-width: 1100px){
+        width:100%;
+      }
+    }
+
 `;
 
 export default GlobalStyles;
