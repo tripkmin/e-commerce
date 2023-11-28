@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import { size } from './constants';
 
 const GlobalStyles = createGlobalStyle`
     ${reset}
@@ -83,10 +84,11 @@ const GlobalStyles = createGlobalStyle`
 
     #root {
       padding: 0 2rem;
-      width:1100px;
+      width:${size.desktop};
       
-      @media screen and (max-width: 1100px){
+      @media screen and (max-width: ${size.desktop}){
         width:100%;
+        padding:0;
       }
     }
 

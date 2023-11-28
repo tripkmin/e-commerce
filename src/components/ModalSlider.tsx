@@ -4,7 +4,6 @@ import SwiperCore from 'swiper';
 import { ProductT } from 'types/types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { size } from 'styles/constants';
 
 interface SliderProps {
   product: ProductT;
@@ -24,29 +23,17 @@ export default function Slider({ product }: SliderProps) {
     <>
       <Image
         spaceBetween={10}
+        slidesPerView={1}
         loop={true}
         onSwiper={setSwiper}
         onSlideChange={(swiper: SwiperCore) => {
-          // 드래그로 onSlideChange를 실행하면 thumbnail 클릭 제대로 안 먹는 버그 있음.
           setCurrentSwiperIdx(swiper.realIndex);
         }}>
-        <PrevButton
-          onClick={() => {
-            swiper && swiper.slidePrev();
-          }}>
-          이전
-        </PrevButton>
         {product.img.map(img => (
           <SwiperSlide key={img}>
             <img src={img} width="100%" alt={img}></img>
           </SwiperSlide>
         ))}
-        <NextButton
-          onClick={() => {
-            swiper && swiper.slideNext();
-          }}>
-          다음
-        </NextButton>
       </Image>
       <Thumbnail>
         {product.img.map((img, imgIdx) => (
@@ -69,29 +56,6 @@ const Image = styled(Swiper)`
   border-radius: 1rem;
   margin-bottom: 1.5rem;
   cursor: pointer;
-  position: relative;
-
-  @media screen and (max-width: ${size.desktop}) {
-    border-radius: 0;
-  }
-`;
-
-const PrevButton = styled.button`
-  padding: 1rem;
-  background-color: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  transform: translateY(-50%);
-  z-index: 1;
-`;
-const NextButton = styled.button`
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  z-index: 1;
 `;
 
 const Thumbnail = styled.div`
@@ -116,9 +80,5 @@ const Thumbnail = styled.div`
       width: 100%;
       height: 100%;
     }
-  }
-
-  @media screen and (max-width: ${size.desktop}) {
-    display: none;
   }
 `;

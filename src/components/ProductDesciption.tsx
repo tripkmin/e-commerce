@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { color, timer } from 'styles/constants';
+import { color, size, timer } from 'styles/constants';
 import { Button } from 'styles/elements';
 import { ProductT } from 'types/types';
 import { ReactComponent as CartIcon } from 'assets/images/icon-cart.svg';
@@ -39,15 +39,17 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
         <SubHead>{product.manufacturer}</SubHead>
         <Head>{product.name}</Head>
         <Description>{product.description}</Description>
-        <FinalPriceBox>
-          <FinalPrice>${product.finalPrice}</FinalPrice>
-          <DiscountPercentBox>
-            <DiscountPercent>
-              {(product.finalPrice / product.orginalPrice) * 100}%
-            </DiscountPercent>
-          </DiscountPercentBox>
-        </FinalPriceBox>
-        <OriginalPrice>${product.orginalPrice}</OriginalPrice>
+        <PriceBox>
+          <FinalPriceBox>
+            <FinalPrice>${product.finalPrice}</FinalPrice>
+            <DiscountPercentBox>
+              <DiscountPercent>
+                {(product.finalPrice / product.orginalPrice) * 100}%
+              </DiscountPercent>
+            </DiscountPercentBox>
+          </FinalPriceBox>
+          <OriginalPrice>${product.orginalPrice}</OriginalPrice>
+        </PriceBox>
       </DescriptionMain>
       <DescriptionFooter>
         <AmountBox>
@@ -56,8 +58,7 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
             onKeyDown={amountOnKeyDownHandler}
             type="number"
             value={Number(amount).toString()}
-            onChange={amountChangeHandler}
-          ></AmountInput>
+            onChange={amountChangeHandler}></AmountInput>
           <AmountButton onClick={amountPlusHandler}>+</AmountButton>
         </AmountBox>
         <CartButton>
@@ -89,6 +90,18 @@ const DescriptionMain = styled.div``;
 const DescriptionFooter = styled.div`
   display: flex;
   gap: 1rem;
+
+  @media screen and (max-width: ${size.desktop}) {
+    flex-direction: column;
+  }
+`;
+
+const PriceBox = styled.div`
+  @media screen and (max-width: ${size.desktop}) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 const FinalPriceBox = styled.div`
@@ -123,6 +136,7 @@ const OriginalPrice = styled.p`
 
 const AmountBox = styled.div`
   display: flex;
+  justify-content: space-between;
   background-color: ${color.lightGrayishBlue};
   border-radius: 1rem;
   padding: 1rem;
@@ -146,4 +160,5 @@ const AmountInput = styled.input`
 
 const CartButton = styled(Button)`
   gap: 1rem;
+  flex-grow: 1;
 `;

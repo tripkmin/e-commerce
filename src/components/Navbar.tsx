@@ -2,12 +2,16 @@ import styled from 'styled-components';
 import logo from 'assets/images/logo.svg';
 import cartIcon from 'assets/images/icon-cart.svg';
 import avatar from 'assets/images/image-avatar.png';
-import { color } from 'styles/constants';
+import { color, size } from 'styles/constants';
+import menuIcon from 'assets/images/icon-menu.svg';
 
 export default function Navbar() {
   return (
     <>
       <NavbarLeft>
+        <Menu>
+          <img src={menuIcon}></img>
+        </Menu>
         <Logo>
           <img src={logo}></img>
         </Logo>
@@ -42,7 +46,6 @@ export default function Navbar() {
     </>
   );
 }
-
 const NavbarLeft = styled.div`
   display: flex;
   align-items: center;
@@ -55,6 +58,7 @@ const NavbarRight = styled.div`
   gap: 2rem;
 `;
 
+const Menu = styled.button``;
 const Logo = styled.div`
   margin-right: 4rem;
   font-size: 2rem;
@@ -70,4 +74,8 @@ const List = styled.ul`
   gap: 1.5rem;
   color: ${color.darkGraylishBlue};
   font-weight: 500;
+
+  @media screen and (max-width: ${size.desktop}) {
+    display: none;
+  }
 `;

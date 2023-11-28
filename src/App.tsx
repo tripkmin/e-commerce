@@ -4,6 +4,7 @@ import Navbar from 'components/Navbar';
 import Slider from 'components/ProductSlider';
 import ProductDescription from 'components/ProductDesciption';
 import Main from 'layouts/Main';
+import { size } from 'styles/constants';
 
 const product = {
   name: 'Fall Limited Edition Sneakers',
@@ -50,10 +51,20 @@ const ProductBox = styled.div`
   display: flex;
   padding: 6rem 4rem;
   justify-content: space-between;
+
+  @media screen and (max-width: ${size.desktop}) {
+    padding: 0;
+    flex-direction: column;
+    gap: 2rem;
+  }
 `;
 
 const ImageBox = styled.div`
   width: 40%;
+
+  @media screen and (max-width: ${size.desktop}) {
+    width: 100%;
+  }
 `;
 
 const DescriptionBox = styled.div`
@@ -62,4 +73,9 @@ const DescriptionBox = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 3rem;
+
+  @media screen and (max-width: ${size.desktop}) {
+    width: 100%;
+    padding: 0 1.5rem;
+  }
 `;

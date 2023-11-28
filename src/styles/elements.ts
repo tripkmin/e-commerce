@@ -6,7 +6,7 @@ export const Button = styled.button`
   justify-content: center;
   align-items: center;
   background-color: ${color.orange};
-  padding: 1rem 4rem;
+  padding: 1rem 2rem;
   border-radius: 0.8rem;
   color: white;
   font-weight: 700;
