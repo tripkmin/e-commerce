@@ -9,7 +9,7 @@ interface SliderProps {
   product: ProductT;
 }
 
-export default function Slider({ product }: SliderProps) {
+export default function ModalSlider({ product }: SliderProps) {
   const [swiper, setSwiper] = useState<SwiperCore>();
   const [currentSwiperIdx, setCurrentSwiperIdx] = useState<number>();
 
@@ -28,12 +28,27 @@ export default function Slider({ product }: SliderProps) {
         onSwiper={setSwiper}
         onSlideChange={(swiper: SwiperCore) => {
           setCurrentSwiperIdx(swiper.realIndex);
-        }}>
+        }}
+      >
+        <PrevButton
+          onClick={() => {
+            swiper && swiper.slidePrev();
+          }}
+        >
+          이전
+        </PrevButton>
         {product.img.map(img => (
           <SwiperSlide key={img}>
             <img src={img} width="100%" alt={img}></img>
           </SwiperSlide>
         ))}
+        <NextButton
+          onClick={() => {
+            swiper && swiper.slideNext();
+          }}
+        >
+          다음
+        </NextButton>
       </Image>
       <Thumbnail>
         {product.img.map((img, imgIdx) => (
@@ -45,7 +60,8 @@ export default function Slider({ product }: SliderProps) {
             width="100%"
             onClick={() => {
               switchSwiperIdx(imgIdx);
-            }}></img>
+            }}
+          ></img>
         ))}
       </Thumbnail>
     </>
@@ -81,4 +97,22 @@ const Thumbnail = styled.div`
       height: 100%;
     }
   }
+`;
+
+const PrevButton = styled.button`
+  padding: 1rem;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  z-index: 1;
+`;
+const NextButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  z-index: 1;
 `;

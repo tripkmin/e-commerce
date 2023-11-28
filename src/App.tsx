@@ -5,6 +5,9 @@ import Slider from 'components/ProductSlider';
 import ProductDescription from 'components/ProductDesciption';
 import Main from 'layouts/Main';
 import { size } from 'styles/constants';
+import { useState } from 'react';
+import Modal from 'layouts/Modal';
+import ModalSlider from 'components/ModalSlider';
 
 const product = {
   name: 'Fall Limited Edition Sneakers',
@@ -28,13 +31,34 @@ const product = {
 };
 
 export default function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
       <Header>
+        <button
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          버튼
+        </button>
         <Navbar />
       </Header>
       <Main>
         <ProductBox>
+          {isModalOpen && (
+            <Modal setIsModalOpen={setIsModalOpen}>
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                }}
+              >
+                ❌
+              </button>
+              <ModalSlider product={product}></ModalSlider>
+            </Modal>
+          )}
           <ImageBox>
             <Slider product={product}></Slider>
           </ImageBox>

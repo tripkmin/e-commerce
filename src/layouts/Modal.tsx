@@ -1,17 +1,26 @@
-import { ReactNode } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
 interface ModalProps {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   children?: ReactNode;
 }
 
-export default function Modal({ children }: ModalProps) {
+export default function Modal({ setIsModalOpen, children }: ModalProps) {
   return createPortal(
-    <>
-      <Backdrop></Backdrop>
-      <Container>{children}</Container>
-    </>,
+    <Backdrop onClick={() => setIsModalOpen(false)}>
+      <Container
+        onClick={e => {
+          e.stopPropagation();
+        }}
+        onMouseUp={e => {
+          e.stopPropagation();
+        }}
+      >
+        {children}
+      </Container>
+    </Backdrop>,
     document.getElementById('modal') as HTMLElement
   );
 }
