@@ -6,8 +6,10 @@ import { color, size } from 'styles/constants';
 import menuIcon from 'assets/images/icon-menu.svg';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from 'styles/elements';
+import Aside from 'layouts/Aside';
 
 export default function Navbar() {
+  const [isAsideMenuOpen, setIsAsideMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement>(null);
 
@@ -26,8 +28,13 @@ export default function Navbar() {
 
   return (
     <>
+      {isAsideMenuOpen && <Aside setIsAsideMenuOpen={setIsAsideMenuOpen}></Aside>}
       <NavbarLeft>
-        <Menu>
+        <Menu
+          onClick={() => {
+            setIsAsideMenuOpen(prev => !prev);
+          }}
+        >
           <img src={menuIcon}></img>
         </Menu>
         <Logo>
