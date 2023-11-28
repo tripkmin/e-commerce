@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { color } from 'styles/constants';
-
+import { ReactComponent as IconClose } from 'assets/images/icon-close.svg';
 interface AsideProps {
   setIsAsideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,14 +18,16 @@ export default function Aside({ setIsAsideMenuOpen }: AsideProps) {
           e.stopPropagation();
         }}
       >
-        <button>❌</button>
-        <ul>
-          <li>Collections</li>
-          <li>Mens</li>
-          <li>Womens</li>
-          <li>About</li>
-          <li>Contact</li>
-        </ul>
+        <CloseButton>
+          <IconClose />
+        </CloseButton>
+        <MenuList>
+          <MenuItem>Collections</MenuItem>
+          <MenuItem>Mens</MenuItem>
+          <MenuItem>Womens</MenuItem>
+          <MenuItem>About</MenuItem>
+          <MenuItem>Contact</MenuItem>
+        </MenuList>
       </AsideMenuBox>
     </Backdrop>,
     document.getElementById('aside') as HTMLElement
@@ -43,6 +45,26 @@ const Backdrop = styled.div`
 const AsideMenuBox = styled.div`
   width: 300px;
   height: 100vh;
+  padding: 2rem;
   background-color: ${color.white};
   z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3rem;
+`;
+
+const CloseButton = styled.button`
+  padding: 0;
+`;
+
+const MenuList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+const MenuItem = styled.li`
+  font-size: 1.2rem;
+  font-weight: 700;
 `;

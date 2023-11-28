@@ -1,30 +1,23 @@
 import styled from 'styled-components';
-import logo from 'assets/images/logo.svg';
-import cartIcon from 'assets/images/icon-cart.svg';
 import avatar from 'assets/images/image-avatar.png';
 import { color, size } from 'styles/constants';
-import menuIcon from 'assets/images/icon-menu.svg';
-import { useEffect, useRef, useState } from 'react';
+import { ReactComponent as LogoIcon } from 'assets/images/logo.svg';
+import { ReactComponent as MenuIcon } from 'assets/images/icon-menu.svg';
+import { ReactComponent as CartIcon } from 'assets/images/icon-cart.svg';
+import { ReactComponent as DeleteIcon } from 'assets/images/icon-delete.svg';
+import { useRef, useState } from 'react';
 import { Button } from 'styles/elements';
 import Aside from 'layouts/Aside';
+import useClickOutside from 'hooks/useClickOutside';
 
 export default function Navbar() {
   const [isAsideMenuOpen, setIsAsideMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement>(null);
 
-  const clickOutside = (e: Event) => {
-    if (isCartOpen && cartRef.current && !cartRef.current.contains(e.target as Node)) {
-      setIsCartOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', clickOutside);
-    return () => {
-      document.removeEventListener('click', clickOutside);
-    };
-  }, [isCartOpen]);
+  useClickOutside(() => {
+    setIsCartOpen(false);
+  }, cartRef);
 
   return (
     <>
@@ -35,11 +28,13 @@ export default function Navbar() {
             setIsAsideMenuOpen(prev => !prev);
           }}
         >
-          <img src={menuIcon}></img>
+          <MenuIcon></MenuIcon>
         </Menu>
-        <Logo>
-          <img src={logo}></img>
-        </Logo>
+        <a href="/">
+          <Logo>
+            <LogoIcon />
+          </Logo>
+        </a>
         <ListBox>
           <List>
             <a href="#collections">
@@ -73,7 +68,9 @@ export default function Navbar() {
                     $125 x 3 <strong>$375</strong>
                   </p>
                 </CartItemDescriptionBox>
-                <button>🗑️</button>
+                <DeleteButton>
+                  <DeleteIcon />
+                </DeleteButton>
               </CartItemBox>
               <Button>Checkout</Button>
               {/* <p>Yout cart is empty.</p> */}
@@ -84,10 +81,9 @@ export default function Navbar() {
               setIsCartOpen(prev => !prev);
             }}
           >
-            <img src={cartIcon}></img>
+            <CartIcon></CartIcon>
           </button>
         </CartBoxWrapper>
-
         <button>
           <img src={avatar} width={48}></img>
         </button>
@@ -105,6 +101,10 @@ const NavbarRight = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
+
+  @media screen and (max-width: ${size.desktop}) {
+    gap: 1rem;
+  }
 `;
 
 const CartBoxWrapper = styled.div`
@@ -113,8 +113,8 @@ const CartBoxWrapper = styled.div`
 
 const CartBox = styled.div`
   position: absolute;
-  bottom: -200px;
-  left: -220px;
+  bottom: -230px;
+  left: -300px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -122,7 +122,7 @@ const CartBox = styled.div`
   border-radius: 1rem;
   padding: 1rem;
   z-index: 10;
-  width: 340px;
+  width: 420px;
   box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.2);
@@ -146,6 +146,7 @@ const CartItemBox = styled.div`
 `;
 
 const CartItemDescriptionBox = styled.div`
+  flex-grow: 1;
   p {
     font-size: 0.9rem;
   }
@@ -155,11 +156,15 @@ const CartItemDescriptionBox = styled.div`
   }
 `;
 
+const DeleteButton = styled.button`
+  color: ${color.graylishBlue};
+`;
 const Menu = styled.button``;
 const Logo = styled.div`
   margin-right: 4rem;
   font-size: 2rem;
   font-weight: 700;
+  cursor: pointer;
 `;
 
 const ListBox = styled.div`

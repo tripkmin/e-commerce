@@ -36,13 +36,6 @@ export default function App() {
   return (
     <>
       <Header>
-        <button
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-        >
-          버튼
-        </button>
         <Navbar />
       </Header>
       <Main>
@@ -56,11 +49,14 @@ export default function App() {
               >
                 ❌
               </button>
-              <ModalSlider product={product}></ModalSlider>
+              <ModalSlider
+                setIsModalOpen={setIsModalOpen}
+                product={product}
+              ></ModalSlider>
             </Modal>
           )}
           <ImageBox>
-            <Slider product={product}></Slider>
+            <Slider setIsModalOpen={setIsModalOpen} product={product}></Slider>
           </ImageBox>
           <DescriptionBox>
             <ProductDescription product={product}></ProductDescription>

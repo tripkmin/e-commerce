@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import SwiperCore from 'swiper';
 import { ProductT } from 'types/types';
@@ -6,10 +6,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
 interface SliderProps {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   product: ProductT;
 }
 
-export default function ModalSlider({ product }: SliderProps) {
+export default function ModalSlider({ setIsModalOpen, product }: SliderProps) {
   const [swiper, setSwiper] = useState<SwiperCore>();
   const [currentSwiperIdx, setCurrentSwiperIdx] = useState<number>();
 

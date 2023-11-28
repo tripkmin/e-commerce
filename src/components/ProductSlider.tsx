@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import SwiperCore from 'swiper';
 import { ProductT } from 'types/types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { size } from 'styles/constants';
+import { color, size, timer } from 'styles/constants';
+import { ReactComponent as LeftArrow } from 'assets/images/icon-previous.svg';
+import { ReactComponent as RightArrow } from 'assets/images/icon-next.svg';
 
 interface SliderProps {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   product: ProductT;
 }
 
-export default function Slider({ product }: SliderProps) {
+export default function Slider({ setIsModalOpen, product }: SliderProps) {
   const [swiper, setSwiper] = useState<SwiperCore>();
   const [currentSwiperIdx, setCurrentSwiperIdx] = useState<number>();
 
@@ -23,18 +26,31 @@ export default function Slider({ product }: SliderProps) {
   return (
     <>
       <Image
+        onClick={() => {
+          setIsModalOpen(prev => !prev);
+        }}
         spaceBetween={10}
         loop={true}
         onSwiper={setSwiper}
+        breakpoints={{
+          600: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 1,
+          },
+        }}
         onSlideChange={(swiper: SwiperCore) => {
           // 드래그로 onSlideChange를 실행하면 thumbnail 클릭 제대로 안 먹는 버그 있음.
           setCurrentSwiperIdx(swiper.realIndex);
-        }}>
+        }}
+      >
         <PrevButton
           onClick={() => {
             swiper && swiper.slidePrev();
-          }}>
-          이전
+          }}
+        >
+          <LeftArrow />
         </PrevButton>
         {product.img.map(img => (
           <SwiperSlide key={img}>
@@ -44,8 +60,9 @@ export default function Slider({ product }: SliderProps) {
         <NextButton
           onClick={() => {
             swiper && swiper.slideNext();
-          }}>
-          다음
+          }}
+        >
+          <RightArrow />
         </NextButton>
       </Image>
       <Thumbnail>
@@ -58,7 +75,8 @@ export default function Slider({ product }: SliderProps) {
             width="100%"
             onClick={() => {
               switchSwiperIdx(imgIdx);
-            }}></img>
+            }}
+          ></img>
         ))}
       </Thumbnail>
     </>
@@ -76,22 +94,48 @@ const Image = styled(Swiper)`
   }
 `;
 
-const PrevButton = styled.button`
-  padding: 1rem;
-  background-color: white;
+const RoundButton = styled.button`
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  transform: translateY(-50%);
-  z-index: 1;
+  background-color: ${color.white};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    transition: color ${timer.default};
+  }
+
+  &:hover {
+    color: ${color.orange};
+  }
 `;
-const NextButton = styled.button`
+
+const PrevButton = styled(RoundButton)`
   position: absolute;
   top: 50%;
-  right: 1rem;
+  left: 1.5rem;
   transform: translateY(-50%);
   z-index: 1;
+  display: none;
+
+  @media screen and (max-width: ${size.desktop}) {
+    display: block;
+  }
+`;
+
+const NextButton = styled(RoundButton)`
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: none;
+
+  @media screen and (max-width: ${size.desktop}) {
+    display: block;
+  }
 `;
 
 const Thumbnail = styled.div`

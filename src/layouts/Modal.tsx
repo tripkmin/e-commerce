@@ -14,9 +14,6 @@ export default function Modal({ setIsModalOpen, children }: ModalProps) {
         onClick={e => {
           e.stopPropagation();
         }}
-        onMouseUp={e => {
-          e.stopPropagation();
-        }}
       >
         {children}
       </Container>
