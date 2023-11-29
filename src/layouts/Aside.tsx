@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { color } from 'styles/constants';
 import { ReactComponent as IconClose } from 'assets/images/icon-close.svg';
+
 interface AsideProps {
   setIsAsideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -11,13 +12,11 @@ export default function Aside({ setIsAsideMenuOpen }: AsideProps) {
     <Backdrop
       onClick={() => {
         setIsAsideMenuOpen(false);
-      }}
-    >
+      }}>
       <AsideMenuBox
         onClick={e => {
           e.stopPropagation();
-        }}
-      >
+        }}>
         <CloseButton>
           <IconClose />
         </CloseButton>

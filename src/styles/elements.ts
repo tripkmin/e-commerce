@@ -18,3 +18,21 @@ export const Button = styled.button`
     -moz-box-shadow: 0px 25px 25px 0px rgba(255, 125, 27, 0.1);
   }
 `;
+
+export const RoundButton = styled.button`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: ${color.white};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    transition: color ${timer.default};
+  }
+
+  &:hover {
+    color: ${color.orange};
+  }
+`;

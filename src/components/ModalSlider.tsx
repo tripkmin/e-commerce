@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import SwiperCore from 'swiper';
 import { ProductT } from 'types/types';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { ReactComponent as LeftArrow } from 'assets/images/icon-previous.svg';
+import { ReactComponent as RightArrow } from 'assets/images/icon-next.svg';
 import 'swiper/css';
+import { RoundButton } from 'styles/elements';
 
 interface SliderProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -29,14 +32,12 @@ export default function ModalSlider({ setIsModalOpen, product }: SliderProps) {
         onSwiper={setSwiper}
         onSlideChange={(swiper: SwiperCore) => {
           setCurrentSwiperIdx(swiper.realIndex);
-        }}
-      >
+        }}>
         <PrevButton
           onClick={() => {
             swiper && swiper.slidePrev();
-          }}
-        >
-          이전
+          }}>
+          <LeftArrow />
         </PrevButton>
         {product.img.map(img => (
           <SwiperSlide key={img}>
@@ -46,9 +47,8 @@ export default function ModalSlider({ setIsModalOpen, product }: SliderProps) {
         <NextButton
           onClick={() => {
             swiper && swiper.slideNext();
-          }}
-        >
-          다음
+          }}>
+          <RightArrow />
         </NextButton>
       </Image>
       <Thumbnail>
@@ -61,8 +61,7 @@ export default function ModalSlider({ setIsModalOpen, product }: SliderProps) {
             width="100%"
             onClick={() => {
               switchSwiperIdx(imgIdx);
-            }}
-          ></img>
+            }}></img>
         ))}
       </Thumbnail>
     </>
@@ -100,20 +99,18 @@ const Thumbnail = styled.div`
   }
 `;
 
-const PrevButton = styled.button`
-  padding: 1rem;
-  background-color: white;
-  border-radius: 50%;
+const PrevButton = styled(RoundButton)`
   position: absolute;
   top: 50%;
-  left: 1rem;
+  left: 1.5rem;
   transform: translateY(-50%);
   z-index: 1;
 `;
-const NextButton = styled.button`
+
+const NextButton = styled(RoundButton)`
   position: absolute;
   top: 50%;
-  right: 1rem;
+  right: 1.5rem;
   transform: translateY(-50%);
   z-index: 1;
 `;

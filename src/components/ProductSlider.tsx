@@ -7,6 +7,7 @@ import 'swiper/css';
 import { color, size, timer } from 'styles/constants';
 import { ReactComponent as LeftArrow } from 'assets/images/icon-previous.svg';
 import { ReactComponent as RightArrow } from 'assets/images/icon-next.svg';
+import { RoundButton } from 'styles/elements';
 
 interface SliderProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -43,13 +44,11 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
         onSlideChange={(swiper: SwiperCore) => {
           // 드래그로 onSlideChange를 실행하면 thumbnail 클릭 제대로 안 먹는 버그 있음.
           setCurrentSwiperIdx(swiper.realIndex);
-        }}
-      >
+        }}>
         <PrevButton
           onClick={() => {
             swiper && swiper.slidePrev();
-          }}
-        >
+          }}>
           <LeftArrow />
         </PrevButton>
         {product.img.map(img => (
@@ -60,8 +59,7 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
         <NextButton
           onClick={() => {
             swiper && swiper.slideNext();
-          }}
-        >
+          }}>
           <RightArrow />
         </NextButton>
       </Image>
@@ -75,8 +73,7 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
             width="100%"
             onClick={() => {
               switchSwiperIdx(imgIdx);
-            }}
-          ></img>
+            }}></img>
         ))}
       </Thumbnail>
     </>
@@ -91,24 +88,6 @@ const Image = styled(Swiper)`
 
   @media screen and (max-width: ${size.desktop}) {
     border-radius: 0;
-  }
-`;
-
-const RoundButton = styled.button`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: ${color.white};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  svg {
-    transition: color ${timer.default};
-  }
-
-  &:hover {
-    color: ${color.orange};
   }
 `;
 

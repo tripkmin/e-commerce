@@ -19,6 +19,6 @@ const HeaderBox = styled.header`
   border-bottom: 1px solid ${color.graylishBlue};
 
   @media screen and (max-width: ${size.desktop}) {
-    padding: 0.5rem 1rem;
+    padding: 1rem 1.5rem;
   }
 `;

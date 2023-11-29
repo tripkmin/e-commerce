@@ -4,11 +4,11 @@ import Navbar from 'components/Navbar';
 import Slider from 'components/ProductSlider';
 import ProductDescription from 'components/ProductDesciption';
 import Main from 'layouts/Main';
-import { size } from 'styles/constants';
+import { color, size } from 'styles/constants';
 import { useState } from 'react';
 import Modal from 'layouts/Modal';
 import ModalSlider from 'components/ModalSlider';
-
+import { ReactComponent as IconClose } from 'assets/images/icon-close.svg';
 const product = {
   name: 'Fall Limited Edition Sneakers',
   manufacturer: 'SNEAKER COMPANY',
@@ -42,17 +42,16 @@ export default function App() {
         <ProductBox>
           {isModalOpen && (
             <Modal setIsModalOpen={setIsModalOpen}>
-              <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                }}
-              >
-                ❌
-              </button>
+              <ModalCloseButton>
+                <IconClose
+                  onClick={() => {
+                    setIsModalOpen(false);
+                  }}
+                />
+              </ModalCloseButton>
               <ModalSlider
                 setIsModalOpen={setIsModalOpen}
-                product={product}
-              ></ModalSlider>
+                product={product}></ModalSlider>
             </Modal>
           )}
           <ImageBox>
@@ -98,4 +97,8 @@ const DescriptionBox = styled.div`
     width: 100%;
     padding: 0 1.5rem;
   }
+`;
+
+const ModalCloseButton = styled.button`
+  color: ${color.graylishBlue};
 `;

@@ -26,15 +26,12 @@ export default function Navbar() {
         <Menu
           onClick={() => {
             setIsAsideMenuOpen(prev => !prev);
-          }}
-        >
+          }}>
           <MenuIcon></MenuIcon>
         </Menu>
-        <a href="/">
-          <Logo>
-            <LogoIcon />
-          </Logo>
-        </a>
+        <Logo>
+          <LogoIcon />
+        </Logo>
         <ListBox>
           <List>
             <a href="#collections">
@@ -61,7 +58,7 @@ export default function Navbar() {
             <CartBox>
               <CartHead>Cart</CartHead>
               <CartItemBox>
-                <img src="./image-product-1.jpg" width="48px" height="48px" />
+                <img src="./image-product-1.jpg" />
                 <CartItemDescriptionBox>
                   <p>Fall Limited Edition Sneakers</p>
                   <p>
@@ -76,17 +73,14 @@ export default function Navbar() {
               {/* <p>Yout cart is empty.</p> */}
             </CartBox>
           )}
-          <button
+          <CartButton
             onClick={() => {
               setIsCartOpen(prev => !prev);
-            }}
-          >
+            }}>
             <CartIcon></CartIcon>
-          </button>
+          </CartButton>
         </CartBoxWrapper>
-        <button>
-          <img src={avatar} width={48}></img>
-        </button>
+        <Avatar src={avatar}></Avatar>
       </NavbarRight>
     </>
   );
@@ -107,6 +101,12 @@ const NavbarRight = styled.div`
   }
 `;
 
+const CartButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+`;
+
 const CartBoxWrapper = styled.div`
   position: relative;
 `;
@@ -114,7 +114,7 @@ const CartBoxWrapper = styled.div`
 const CartBox = styled.div`
   position: absolute;
   bottom: -230px;
-  left: -300px;
+  left: -340px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -159,8 +159,21 @@ const CartItemDescriptionBox = styled.div`
 const DeleteButton = styled.button`
   color: ${color.graylishBlue};
 `;
-const Menu = styled.button``;
+const Menu = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+
+  @media screen and (min-width: ${size.desktop}) {
+    display: none;
+  }
+`;
+
 const Logo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 4rem;
   font-size: 2rem;
   font-weight: 700;
@@ -179,5 +192,15 @@ const List = styled.ul`
 
   @media screen and (max-width: ${size.desktop}) {
     display: none;
+  }
+`;
+
+const Avatar = styled.img`
+  width: 40px;
+  height: 40px;
+
+  @media screen and (max-width: ${size.desktop}) {
+    width: 32px;
+    height: 32px;
   }
 `;
