@@ -44,11 +44,13 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
         onSlideChange={(swiper: SwiperCore) => {
           // 드래그로 onSlideChange를 실행하면 thumbnail 클릭 제대로 안 먹는 버그 있음.
           setCurrentSwiperIdx(swiper.realIndex);
-        }}>
+        }}
+      >
         <PrevButton
           onClick={() => {
             swiper && swiper.slidePrev();
-          }}>
+          }}
+        >
           <LeftArrow />
         </PrevButton>
         {product.img.map(img => (
@@ -59,7 +61,8 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
         <NextButton
           onClick={() => {
             swiper && swiper.slideNext();
-          }}>
+          }}
+        >
           <RightArrow />
         </NextButton>
       </Image>
@@ -73,7 +76,8 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
             width="100%"
             onClick={() => {
               switchSwiperIdx(imgIdx);
-            }}></img>
+            }}
+          ></img>
         ))}
       </Thumbnail>
     </>

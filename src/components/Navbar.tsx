@@ -1,18 +1,20 @@
 import styled from 'styled-components';
 import avatar from 'assets/images/image-avatar.png';
-import { color, size } from 'styles/constants';
+import { color, size, timer } from 'styles/constants';
 import { ReactComponent as LogoIcon } from 'assets/images/logo.svg';
 import { ReactComponent as MenuIcon } from 'assets/images/icon-menu.svg';
 import { ReactComponent as CartIcon } from 'assets/images/icon-cart.svg';
-import { ReactComponent as DeleteIcon } from 'assets/images/icon-delete.svg';
-import { useRef, useState } from 'react';
-import { Button } from 'styles/elements';
+
+import { useContext, useRef, useState } from 'react';
 import Aside from 'layouts/Aside';
 import useClickOutside from 'hooks/useClickOutside';
+import Cart from './Cart';
+import ProductContext from 'context/ProductContext';
 
 export default function Navbar() {
   const [isAsideMenuOpen, setIsAsideMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { cart, getAllAmount } = useContext(ProductContext);
   const cartRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(() => {
@@ -26,10 +28,11 @@ export default function Navbar() {
         <Menu
           onClick={() => {
             setIsAsideMenuOpen(prev => !prev);
-          }}>
+          }}
+        >
           <MenuIcon></MenuIcon>
         </Menu>
-        <Logo>
+        <Logo href="#">
           <LogoIcon />
         </Logo>
         <ListBox>
@@ -54,29 +57,17 @@ export default function Navbar() {
       </NavbarLeft>
       <NavbarRight>
         <CartBoxWrapper ref={cartRef}>
-          {isCartOpen && (
-            <CartBox>
-              <CartHead>Cart</CartHead>
-              <CartItemBox>
-                <img src="./image-product-1.jpg" />
-                <CartItemDescriptionBox>
-                  <p>Fall Limited Edition Sneakers</p>
-                  <p>
-                    $125 x 3 <strong>$375</strong>
-                  </p>
-                </CartItemDescriptionBox>
-                <DeleteButton>
-                  <DeleteIcon />
-                </DeleteButton>
-              </CartItemBox>
-              <Button>Checkout</Button>
-              {/* <p>Yout cart is empty.</p> */}
-            </CartBox>
-          )}
+          {isCartOpen && <Cart />}
           <CartButton
             onClick={() => {
               setIsCartOpen(prev => !prev);
-            }}>
+            }}
+          >
+            {cart.length !== 0 ? (
+              <SmallBadge>
+                <span>{getAllAmount() > 99 ? '99+' : getAllAmount()}</span>
+              </SmallBadge>
+            ) : null}
             <CartIcon></CartIcon>
           </CartButton>
         </CartBoxWrapper>
@@ -85,6 +76,7 @@ export default function Navbar() {
     </>
   );
 }
+
 const NavbarLeft = styled.div`
   display: flex;
   align-items: center;
@@ -111,54 +103,23 @@ const CartBoxWrapper = styled.div`
   position: relative;
 `;
 
-const CartBox = styled.div`
+const SmallBadge = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+  background-color: ${color.orange};
+  border-radius: 10px;
   position: absolute;
-  bottom: -230px;
-  left: -340px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  background-color: ${color.white};
-  border-radius: 1rem;
-  padding: 1rem;
-  z-index: 10;
-  width: 420px;
-  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.2);
-`;
+  top: -12px;
+  right: -8px;
 
-const CartHead = styled.h1`
-  font-size: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid ${color.lightGrayishBlue};
-`;
-
-const CartItemBox = styled.div`
-  display: flex;
-  gap: 1rem;
-
-  img {
-    width: 48px;
-    height: 48px;
-    border-radius: 0.4rem;
+  span {
+    font-size: 0.6rem;
+    color: ${color.white};
   }
 `;
 
-const CartItemDescriptionBox = styled.div`
-  flex-grow: 1;
-  p {
-    font-size: 0.9rem;
-  }
-
-  strong {
-    font-weight: 700;
-  }
-`;
-
-const DeleteButton = styled.button`
-  color: ${color.graylishBlue};
-`;
 const Menu = styled.button`
   display: flex;
   justify-content: center;
@@ -170,7 +131,7 @@ const Menu = styled.button`
   }
 `;
 
-const Logo = styled.div`
+const Logo = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -192,6 +153,29 @@ const List = styled.ul`
 
   @media screen and (max-width: ${size.desktop}) {
     display: none;
+  }
+
+  li {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 58px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      content: '';
+      background-color: orange;
+      opacity: 0;
+      transition: all ${timer.default};
+    }
+
+    &:hover {
+      &::after {
+        width: 100%;
+        opacity: 1;
+      }
+    }
   }
 `;
 

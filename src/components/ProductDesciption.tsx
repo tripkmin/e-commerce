@@ -3,7 +3,8 @@ import { color, size, timer } from 'styles/constants';
 import { Button } from 'styles/elements';
 import { ProductT } from 'types/types';
 import { ReactComponent as CartIcon } from 'assets/images/icon-cart.svg';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import ProductContext from 'context/ProductContext';
 
 interface ProductDescriptionProps {
   product: ProductT;
@@ -11,6 +12,7 @@ interface ProductDescriptionProps {
 
 export default function ProductDescription({ product }: ProductDescriptionProps) {
   const [amount, setAmount] = useState(0);
+  const { handleAddToCart } = useContext(ProductContext);
 
   const amountPlusHandler = () => {
     if (amount < 99) {
@@ -31,6 +33,17 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
 
   const amountOnKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
+  };
+
+  const addCartHandler = () => {
+    const result = {
+      id: product.id,
+      name: product.name,
+      amount,
+      finalPrice: product.finalPrice,
+      thumbnail: product.thumbnail,
+    };
+    handleAddToCart(result);
   };
 
   return (
@@ -58,10 +71,11 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
             onKeyDown={amountOnKeyDownHandler}
             type="number"
             value={Number(amount).toString()}
-            onChange={amountChangeHandler}></AmountInput>
+            onChange={amountChangeHandler}
+          ></AmountInput>
           <AmountButton onClick={amountPlusHandler}>+</AmountButton>
         </AmountBox>
-        <CartButton>
+        <CartButton onClick={addCartHandler}>
           <CartIcon style={{ fill: 'white' }}></CartIcon>
           <span>Add to cart</span>
         </CartButton>
