@@ -4,7 +4,6 @@ import { color, size, timer } from 'styles/constants';
 import { ReactComponent as LogoIcon } from 'assets/images/logo.svg';
 import { ReactComponent as MenuIcon } from 'assets/images/icon-menu.svg';
 import { ReactComponent as CartIcon } from 'assets/images/icon-cart.svg';
-
 import { useContext, useRef, useState } from 'react';
 import Aside from 'layouts/Aside';
 import useClickOutside from 'hooks/useClickOutside';
@@ -28,8 +27,7 @@ export default function Navbar() {
         <Menu
           onClick={() => {
             setIsAsideMenuOpen(prev => !prev);
-          }}
-        >
+          }}>
           <MenuIcon></MenuIcon>
         </Menu>
         <Logo href="#">
@@ -61,8 +59,7 @@ export default function Navbar() {
           <CartButton
             onClick={() => {
               setIsCartOpen(prev => !prev);
-            }}
-          >
+            }}>
             {cart.length !== 0 ? (
               <SmallBadge>
                 <span>{getAllAmount() > 99 ? '99+' : getAllAmount()}</span>
@@ -71,7 +68,9 @@ export default function Navbar() {
             <CartIcon></CartIcon>
           </CartButton>
         </CartBoxWrapper>
-        <Avatar src={avatar}></Avatar>
+        <AvatarBox>
+          <Avatar src={avatar}></Avatar>
+        </AvatarBox>
       </NavbarRight>
     </>
   );
@@ -157,6 +156,7 @@ const List = styled.ul`
 
   li {
     position: relative;
+    transition: color ${timer.default};
 
     &::after {
       position: absolute;
@@ -171,10 +171,40 @@ const List = styled.ul`
     }
 
     &:hover {
+      color: ${color.black};
+
       &::after {
         width: 100%;
         opacity: 1;
       }
+    }
+  }
+`;
+
+const AvatarBox = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid ${color.orange};
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity ${timer.default};
+    cursor: pointer;
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
     }
   }
 `;

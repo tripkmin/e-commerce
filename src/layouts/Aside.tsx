@@ -18,19 +18,16 @@ export default function Aside({ setIsAsideMenuOpen }: AsideProps) {
       className={animation ? 'animated' : ''}
       onClick={() => {
         setIsAsideMenuOpen(false);
-      }}
-    >
+      }}>
       <AsideMenuBox
         className={animation ? 'animated' : ''}
         onClick={e => {
           e.stopPropagation();
-        }}
-      >
+        }}>
         <CloseButton
           onClick={() => {
             setIsAsideMenuOpen(false);
-          }}
-        >
+          }}>
           <IconClose />
         </CloseButton>
         <MenuList>
@@ -73,7 +70,7 @@ const Backdrop = styled.div`
 const AsideMenuBox = styled.div`
   width: 300px;
   height: 100vh;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   background-color: ${color.white};
   z-index: 20;
   display: flex;
@@ -81,7 +78,7 @@ const AsideMenuBox = styled.div`
   align-items: flex-start;
   gap: 3rem;
   transform: translateX(-300px);
-  transition: transform ${timer.default};
+  transition: transform ${timer.fast};
 
   &.animated {
     transform: translateX(0);

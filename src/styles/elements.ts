@@ -13,9 +13,19 @@ export const Button = styled.button`
   transition: all ${timer.default};
 
   &:hover {
+    background-color: ${color.lightOrange};
     box-shadow: 0px 25px 25px 0px rgba(255, 125, 27, 0.1);
     -webkit-box-shadow: 0px 25px 25px 0px rgba(255, 125, 27, 0.1);
     -moz-box-shadow: 0px 25px 25px 0px rgba(255, 125, 27, 0.1);
+  }
+
+  &:disabled {
+    background-color: ${color.graylishBlue};
+    cursor: not-allowed;
+
+    &:hover {
+      box-shadow: none;
+    }
   }
 `;
 

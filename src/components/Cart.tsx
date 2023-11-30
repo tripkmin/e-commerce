@@ -9,12 +9,13 @@ import ProductContext from 'context/ProductContext';
 export default function Cart() {
   const { animation } = useAnimation();
   const { cart, removeCart } = useContext(ProductContext);
+  const isCartEmpty = cart.length === 0;
 
   return (
     <CartBox className={animation ? 'animated' : ''}>
       <CartHead>Cart</CartHead>
-      {cart.length === 0 ? (
-        <p>Yout cart is empty.</p>
+      {isCartEmpty ? (
+        <NoCart>Yout cart is empty.</NoCart>
       ) : (
         cart.map(item => (
           <CartItemBox key={item.id}>
@@ -29,14 +30,13 @@ export default function Cart() {
             <DeleteButton
               onClick={() => {
                 removeCart(item.id);
-              }}
-            >
+              }}>
               <DeleteIcon />
             </DeleteButton>
           </CartItemBox>
         ))
       )}
-      <Button>Checkout</Button>
+      <Button disabled={isCartEmpty}>Checkout</Button>
     </CartBox>
   );
 }
@@ -64,6 +64,11 @@ const CartBox = styled.div`
   }
 `;
 
+const NoCart = styled.p`
+  margin: 1rem 0;
+  text-align: center;
+  font-size: 0.8rem;
+`;
 const CartHead = styled.h1`
   font-size: 1rem;
   padding-bottom: 1rem;
@@ -89,6 +94,7 @@ const CartItemDescriptionBox = styled.div`
 
   strong {
     font-weight: 700;
+    margin-left: 0.25rem;
   }
 `;
 
