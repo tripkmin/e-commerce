@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SwiperCore from 'swiper';
 import { ProductT } from 'types/types';
@@ -20,7 +20,7 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
 
   const switchSwiperIdx = (idx: number) => {
     if (swiper) {
-      swiper.slideTo(idx);
+      swiper.slideToLoop(idx);
     }
   };
 
@@ -42,15 +42,12 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
           },
         }}
         onSlideChange={(swiper: SwiperCore) => {
-          // 드래그로 onSlideChange를 실행하면 thumbnail 클릭 제대로 안 먹는 버그 있음.
           setCurrentSwiperIdx(swiper.realIndex);
-        }}
-      >
+        }}>
         <PrevButton
           onClick={() => {
             swiper && swiper.slidePrev();
-          }}
-        >
+          }}>
           <LeftArrow />
         </PrevButton>
         {product.img.map(img => (
@@ -61,23 +58,20 @@ export default function Slider({ setIsModalOpen, product }: SliderProps) {
         <NextButton
           onClick={() => {
             swiper && swiper.slideNext();
-          }}
-        >
+          }}>
           <RightArrow />
         </NextButton>
       </Image>
       <Thumbnail>
         {product.img.map((img, imgIdx) => (
-          <img
-            className={currentSwiperIdx === imgIdx ? 'active' : ''}
+          <ImageBox
             key={img}
-            src={img}
-            alt={img}
-            width="100%"
+            className={currentSwiperIdx === imgIdx ? 'active' : ''}
             onClick={() => {
               switchSwiperIdx(imgIdx);
-            }}
-          ></img>
+            }}>
+            <img src={img} alt={img} width="100%"></img>
+          </ImageBox>
         ))}
       </Thumbnail>
     </>
@@ -125,27 +119,36 @@ const Thumbnail = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  cursor: pointer;
-
-  img {
-    width: 20%;
-    border-radius: 0.5rem;
-  }
-
-  .active {
-    opacity: 0.5;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      border: 2px solid orange;
-      width: 100%;
-      height: 100%;
-    }
-  }
 
   @media screen and (max-width: ${size.desktop}) {
     display: none;
+  }
+`;
+
+const ImageBox = styled.div`
+  width: 20%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 2px solid ${color.orange};
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity ${timer.default};
+  }
+
+  &.active {
+    &::after {
+      opacity: 1;
+    }
   }
 `;

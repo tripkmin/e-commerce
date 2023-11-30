@@ -8,7 +8,7 @@ import { ReactComponent as RightArrow } from 'assets/images/icon-next.svg';
 import { ReactComponent as IconClose } from 'assets/images/icon-close.svg';
 import 'swiper/css';
 import { RoundButton } from 'styles/elements';
-import { color, size } from 'styles/constants';
+import { color, size, timer } from 'styles/constants';
 
 interface SliderProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -21,7 +21,7 @@ export default function ModalSlider({ setIsModalOpen, product }: SliderProps) {
 
   const switchSwiperIdx = (idx: number) => {
     if (swiper) {
-      swiper.slideTo(idx);
+      swiper.slideToLoop(idx);
     }
   };
 
@@ -40,8 +40,7 @@ export default function ModalSlider({ setIsModalOpen, product }: SliderProps) {
         <PrevButton
           onClick={() => {
             swiper && swiper.slidePrev();
-          }}
-        >
+          }}>
           <LeftArrow />
         </PrevButton>
         <Image
@@ -51,8 +50,7 @@ export default function ModalSlider({ setIsModalOpen, product }: SliderProps) {
           onSwiper={setSwiper}
           onSlideChange={(swiper: SwiperCore) => {
             setCurrentSwiperIdx(swiper.realIndex);
-          }}
-        >
+          }}>
           {product.img.map(img => (
             <SwiperSlide key={img}>
               <img src={img} width="100%" alt={img}></img>
@@ -62,24 +60,21 @@ export default function ModalSlider({ setIsModalOpen, product }: SliderProps) {
         <NextButton
           onClick={() => {
             swiper && swiper.slideNext();
-          }}
-        >
+          }}>
           <RightArrow />
         </NextButton>
       </ModalImageWrapper>
       <Thumbnail>
         {product.img.map((img, imgIdx) => (
-          <img
+          <ImageBox
             className={currentSwiperIdx === imgIdx ? 'active' : ''}
             key={img}
-            src={img}
-            alt={img}
-            width="100%"
             onClick={() => {
-              setCurrentSwiperIdx(imgIdx);
+              // setCurrentSwiperIdx(imgIdx);
               switchSwiperIdx(imgIdx);
-            }}
-          ></img>
+            }}>
+            <img src={img} alt={img} width="100%"></img>
+          </ImageBox>
         ))}
       </Thumbnail>
     </>
@@ -98,32 +93,13 @@ const ModalImageWrapper = styled.div`
 const Image = styled(Swiper)`
   border-radius: 1rem;
   margin-bottom: 1.5rem;
-  cursor: pointer;
+  cursor: grab;
 `;
 
 const Thumbnail = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  cursor: pointer;
-
-  img {
-    width: 20%;
-    border-radius: 0.5rem;
-  }
-
-  .active {
-    opacity: 0.5;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      border: 2px solid orange;
-      width: 100%;
-      height: 100%;
-    }
-  }
 `;
 
 const PrevButton = styled(RoundButton)`
@@ -132,10 +108,13 @@ const PrevButton = styled(RoundButton)`
   left: -5rem;
   transform: translateY(-50%);
   z-index: 10;
+
   @media screen and (max-width: ${size.desktop}) {
     left: 0rem;
     background-color: transparent;
     color: ${color.white};
+    width: 40px;
+    height: 40px;
   }
 `;
 
@@ -145,14 +124,45 @@ const NextButton = styled(RoundButton)`
   right: -5rem;
   transform: translateY(-50%);
   z-index: 10;
+
   @media screen and (max-width: ${size.desktop}) {
     right: 0rem;
     background-color: transparent;
     color: ${color.white};
+    width: 40px;
+    height: 40px;
   }
 `;
 
 const ModalCloseButton = styled.button`
   padding: 0.5rem;
   color: ${color.graylishBlue};
+`;
+
+const ImageBox = styled.div`
+  width: 20%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 2px solid ${color.lightOrange};
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity ${timer.default};
+  }
+
+  &.active {
+    &::after {
+      opacity: 1;
+    }
+  }
 `;
