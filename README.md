@@ -3,7 +3,7 @@
 ### 🔗 Links
 
 - Github URL: [Click here](https://github.com/tripkmin/e-commerce)
-- Live Site URL: [Click here](https://e-commerce-rose-mu.vercel.app/)
+- Live Site URL: [Click here](https://e-commerce-five-cyan.vercel.app/)
 
 ### 🛠️ Technologies Used
 
@@ -39,7 +39,7 @@
 ### 🔗 링크
 
 - Github URL: [여기를 클릭해주세요](https://github.com/tripkmin/e-commerce)
-- Live Site URL: [여기를 클릭해주세요](https://e-commerce-rose-mu.vercel.app/)
+- Live Site URL: [여기를 클릭해주세요](https://e-commerce-five-cyan.vercel.app/)
 
 ### 🛠️ 사용한 기술
 
