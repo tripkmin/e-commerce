@@ -3,7 +3,7 @@ import { color, size, timer } from 'styles/constants';
 import { Button } from 'styles/elements';
 import { ProductT } from 'types/types';
 import { ReactComponent as CartIcon } from 'assets/images/icon-cart.svg';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import ProductContext from 'context/ProductContext';
 
 interface ProductDescriptionProps {
@@ -13,6 +13,7 @@ interface ProductDescriptionProps {
 export default function ProductDescription({ product }: ProductDescriptionProps) {
   const [amount, setAmount] = useState(0);
   const { handleAddToCart } = useContext(ProductContext);
+  const amountInputRef = useRef<HTMLInputElement>(null);
 
   const amountPlusHandler = () => {
     if (amount < 99) {
@@ -27,7 +28,6 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
   };
 
   const amountChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (String(amount).length >= 2) return;
     setAmount(Number(e.target.value));
   };
 
@@ -36,6 +36,8 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
   };
 
   const addCartHandler = () => {
+    if (amount === 0) return;
+
     const result = {
       id: product.id,
       name: product.name,
@@ -44,6 +46,7 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
       thumbnail: product.thumbnail,
     };
     handleAddToCart(result);
+    setAmount(0);
   };
 
   return (
@@ -68,11 +71,16 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
         <AmountBox>
           <AmountButton onClick={amountMinusHandler}>-</AmountButton>
           <AmountInput
+            ref={amountInputRef}
+            onInput={() => {
+              if (amountInputRef.current && amountInputRef.current?.value.length > 2) {
+                amountInputRef.current.value = amountInputRef.current.value.slice(0, 2);
+              }
+            }}
             onKeyDown={amountOnKeyDownHandler}
             type="number"
             value={Number(amount).toString()}
-            onChange={amountChangeHandler}
-          ></AmountInput>
+            onChange={amountChangeHandler}></AmountInput>
           <AmountButton onClick={amountPlusHandler}>+</AmountButton>
         </AmountBox>
         <CartButton onClick={addCartHandler}>
