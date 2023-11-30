@@ -23,8 +23,8 @@ export default function Cart() {
             <CartItemDescriptionBox>
               <p>{item.name}</p>
               <p>
-                ${item.finalPrice} x {item.amount}{' '}
-                <strong>${item.finalPrice * item.amount}</strong>
+                ${item.finalPrice.toFixed(2)} x {item.amount}{' '}
+                <strong>${(item.finalPrice * item.amount).toLocaleString()}</strong>
               </p>
             </CartItemDescriptionBox>
             <DeleteButton
@@ -50,7 +50,7 @@ const CartBox = styled.div`
   gap: 1rem;
   background-color: ${color.white};
   border-radius: 1rem;
-  padding: 1rem;
+  padding: 1.5rem;
   z-index: 10;
   width: 420px;
   box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.2);

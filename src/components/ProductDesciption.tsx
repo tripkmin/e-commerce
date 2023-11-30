@@ -57,14 +57,14 @@ export default function ProductDescription({ product }: ProductDescriptionProps)
         <Description>{product.description}</Description>
         <PriceBox>
           <FinalPriceBox>
-            <FinalPrice>${product.finalPrice}</FinalPrice>
+            <FinalPrice>${product.finalPrice.toFixed(2)}</FinalPrice>
             <DiscountPercentBox>
               <DiscountPercent>
                 {(product.finalPrice / product.orginalPrice) * 100}%
               </DiscountPercent>
             </DiscountPercentBox>
           </FinalPriceBox>
-          <OriginalPrice>${product.orginalPrice}</OriginalPrice>
+          <OriginalPrice>${product.orginalPrice.toFixed(2)}</OriginalPrice>
         </PriceBox>
       </DescriptionMain>
       <DescriptionFooter>
